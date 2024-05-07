@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_app_navigation"
+    app:startDestination="@id/mainMenuFragment">
+
+    <fragment
+        android:id="@+id/mainMenuFragment"
+        android:name="com.example.triklandroidassessment.view.fragments.MainMenuFragment"
+        android:label="fragment_main_menu"
+        tools:layout="@layout/fragment_main_menu" >
+        <action
+            android:id="@+id/action_mainMenuFragment_to_startNewGameFragment"
+            app:destination="@id/startNewGameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/startNewGameFragment"
+        android:name="com.example.triklandroidassessment.view.fragments.StartNewGameFragment"
+        android:label="fragment_start_new_game"
+        tools:layout="@layout/fragment_start_new_game" />
+</navigation>
