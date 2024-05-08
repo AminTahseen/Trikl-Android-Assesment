@@ -1,4 +1,4 @@
-package com.example.triklandroidassessment.model.dataModel
+package com.example.triklandroidassessment.model.remote.models
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass

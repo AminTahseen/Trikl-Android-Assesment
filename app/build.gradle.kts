@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("com.google.dagger.hilt.android")
     id("kotlin-kapt")// add this line
-    id ("kotlin-android")
+    id("kotlin-android")
 }
 
 android {
@@ -45,14 +45,15 @@ android {
 dependencies {
 
     // dagger hilt
-    implementation("com.google.dagger:hilt-android:2.46")
-    kapt("com.google.dagger:hilt-compiler:2.46")
+    val daggerHilt = "2.46"
+    implementation("com.google.dagger:hilt-android:$daggerHilt")
+    kapt("com.google.dagger:hilt-compiler:$daggerHilt")
 
     // moshi
-    implementation ("com.squareup.moshi:moshi:1.15.0")
-    kapt ("com.squareup.moshi:moshi-kotlin-codegen:1.15.0")
-    implementation("com.squareup.moshi:moshi-kotlin:1.15.0")
-
+    val moshi = "1.15.0"
+    implementation("com.squareup.moshi:moshi:$moshi")
+    kapt("com.squareup.moshi:moshi-kotlin-codegen:$moshi")
+    implementation("com.squareup.moshi:moshi-kotlin:$moshi")
 
 
     // Fragment lifecycle methods
@@ -66,13 +67,25 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version_ktx")
 
     // retrofit & GSON
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation ("com.squareup.retrofit2:converter-moshi:2.9.0")
+    val retrofit = "2.9.0"
+    implementation("com.squareup.retrofit2:retrofit:$retrofit")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofit")
+    implementation("com.squareup.retrofit2:converter-moshi:$retrofit")
 
     // coroutine
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+    val coroutine = "1.5.2"
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine")
+
+    // room database
+    val roomVersion = "2.6.1"
+    implementation("androidx.room:room-runtime:$roomVersion")
+    annotationProcessor("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion")
+    androidTestImplementation("androidx.room:room-testing:$roomVersion")
+
+
 
 
     implementation(libs.androidx.core.ktx)

@@ -13,9 +13,13 @@ import com.example.triklandroidassessment.databinding.FragmentMainMenuBinding
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.triklandroidassessment.utils.gone
+import com.example.triklandroidassessment.utils.visible
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
+@AndroidEntryPoint
 class MainMenuFragment : Fragment() {
     private val mainMenuViewModel: MainMenuViewModel by viewModels()
     private lateinit var binding: FragmentMainMenuBinding
@@ -29,8 +33,10 @@ class MainMenuFragment : Fragment() {
         // Inflate the layout for this fragment
         handleBackPress()
         observeEvents()
+        mainMenuViewModel.getCurrentHighScore()
         return binding.root
     }
+
 
     private fun handleBackPress() {
         val callback: OnBackPressedCallback =
@@ -50,6 +56,20 @@ class MainMenuFragment : Fragment() {
                         try {
                             findNavController().navigate(R.id.action_mainMenuFragment_to_startNewGameFragment)
                         } catch (_: Exception) {
+                        }
+                    }
+
+                    is MainMenuEvents.SetCurrentHighScore -> {
+                        val highScore = events.score
+                        if(highScore==0){
+                            binding.currentHighScore.gone()
+                            binding.HighScoreText.gone()
+                        }
+                        else{
+                            binding.currentHighScore.visible()
+                            binding.HighScoreText.visible()
+                            val text = "$highScore POINTS"
+                            binding.currentHighScore.text = text
                         }
                     }
                 }

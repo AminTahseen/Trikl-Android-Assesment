@@ -4,7 +4,10 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.triklandroidassessment.model.dataModel.QuestionsOptionsAnswer
+import com.example.triklandroidassessment.model.local.models.HighScore
+import com.example.triklandroidassessment.model.remote.models.QuestionsOptionsAnswer
+import com.example.triklandroidassessment.model.useCases.AddOrUpdateHighScoreUseCase
+import com.example.triklandroidassessment.model.useCases.GetLatestHighScoreUseCase
 import com.example.triklandroidassessment.model.useCases.GetQuestionsAnswersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
@@ -13,7 +16,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StartNewGameViewModel @Inject constructor(
-    private val getQuestionsAnswersUseCase: GetQuestionsAnswersUseCase
+    private val getQuestionsAnswersUseCase: GetQuestionsAnswersUseCase,
+    private val getLatestHighScoreUseCase: GetLatestHighScoreUseCase,
+    private val addHighScoreUseCase: AddOrUpdateHighScoreUseCase
 ) : ViewModel() {
     private val _events = MutableLiveData<StartNewGameEvents>()
     val events = _events
@@ -26,6 +31,9 @@ class StartNewGameViewModel @Inject constructor(
     var setIsOptionsClickable = true
 
     private var totalScore = 0
+
+    private var HIGH_SCORE = 0
+    private var HighScore_OBJ_ID = -1
 
     init {
         viewModelScope.launch {
@@ -49,12 +57,19 @@ class StartNewGameViewModel @Inject constructor(
                 }
             }
             getTotalScore()
-            callEvent(StartNewGameEvents.SetProgress(10))
         }
     }
 
-    private fun getTotalScore() {
-        callEvent(StartNewGameEvents.SetTotalScore(totalScore))
+    private suspend fun getTotalScore() {
+        getLatestHighScoreUseCase().catch {
+            Log.d("Error", "err")
+        }.collect {
+            it?.let { highScore ->
+                Log.d("dbStoredScore", highScore.highScore.toString())
+                HIGH_SCORE = highScore.highScore
+                HighScore_OBJ_ID = highScore.id!!
+            }
+        }
     }
 
     private fun setQuestion(index: Int) {
@@ -97,12 +112,42 @@ class StartNewGameViewModel @Inject constructor(
         val index = onGoingQuestionIndex + 1
         callEvent(StartNewGameEvents.SetProgress(10))
         if (index == questionsAnswersList.size) {
-            callEvent(StartNewGameEvents.Finish(totalScore))
+            setAndCheckScoreToDB()
         } else {
             onGoingQuestionIndex = index
             setQuestion(index)
         }
         selectedAnswer = ""
+    }
+
+    private fun setAndCheckScoreToDB() {
+        viewModelScope.launch {
+            if (HIGH_SCORE == 0) {
+                addHighScoreToDB(false)
+            } else {
+                if (totalScore > HIGH_SCORE)
+                    addHighScoreToDB(true)
+                else
+                    callEvent(StartNewGameEvents.Finish(totalScore))
+            }
+        }
+    }
+
+    private suspend fun addHighScoreToDB(isUpdate: Boolean) {
+        if (isUpdate) {
+            addHighScoreUseCase(
+                HighScore(highScore = totalScore, id = HighScore_OBJ_ID),
+                isUpdate = true
+            ).catch {
+            }.collect {
+                callEvent(StartNewGameEvents.Finish(totalScore))
+            }
+        } else {
+            addHighScoreUseCase(HighScore(highScore = totalScore), isUpdate = false).catch {
+            }.collect {
+                callEvent(StartNewGameEvents.Finish(totalScore))
+            }
+        }
     }
 
     private fun callEvent(events: StartNewGameEvents) {

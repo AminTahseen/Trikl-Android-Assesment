@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.triklandroidassessment.databinding.OptionsItemBinding
-import com.example.triklandroidassessment.model.dataModel.OptionItem
+import com.example.triklandroidassessment.model.remote.models.OptionItem
 
 class QuestionAnswerAdapter(
     val onItemSelect: (selectedAnswer: String) -> Unit

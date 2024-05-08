@@ -1,4 +1,4 @@
-package com.example.triklandroidassessment.model.dataModel
+package com.example.triklandroidassessment.model.remote.models
 
 data class OptionItem(
     val option: String,

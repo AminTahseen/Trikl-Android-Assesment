@@ -1,7 +1,6 @@
 package com.example.triklandroidassessment.model.remote.apiInterface
 
-import com.example.triklandroidassessment.model.dataModel.QuestionsOptionsAnswer
-import kotlinx.coroutines.flow.Flow
+import com.example.triklandroidassessment.model.remote.models.QuestionsOptionsAnswer
 import retrofit2.Response
 import retrofit2.http.GET
 

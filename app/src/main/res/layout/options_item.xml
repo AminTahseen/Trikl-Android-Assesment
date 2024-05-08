@@ -7,7 +7,7 @@
     <data>
         <variable
             name="model"
-            type="com.example.triklandroidassessment.model.dataModel.OptionItem" />
+            type="com.example.triklandroidassessment.model.remote.models.OptionItem" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

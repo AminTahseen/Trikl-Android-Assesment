@@ -15,7 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.triklandroidassessment.R
 import com.example.triklandroidassessment.databinding.FragmentStartNewGameBinding
-import com.example.triklandroidassessment.model.dataModel.OptionItem
+import com.example.triklandroidassessment.model.remote.models.OptionItem
 import com.example.triklandroidassessment.utils.gone
 import com.example.triklandroidassessment.utils.visible
 import dagger.hilt.android.AndroidEntryPoint
