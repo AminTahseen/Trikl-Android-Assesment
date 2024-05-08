@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Trikl Android Assessment</string>
+    <string name="app_name">Trikl Quiz App</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="main_menu">Main Menu</string>
@@ -7,4 +7,14 @@
     <string name="start_new_game">Start new game</string>
     <string name="logo">logo</string>
     <string name="score">Score : </string>
+    <string name="high_score">high score</string>
+    <string name="question_x_of_y">Question X of Y</string>
+    <string name="timer">Timer :</string>
+    <string name="_0_sec">0 sec</string>
+    <string name="_10_points">10 POINTS</string>
+    <string name="no_data_found">No Data Found</string>
+    <string name="retry">Retry</string>
+    <string name="you_scored">You Scored</string>
+    <string name="back_to_main_menu">Back To Main Menu</string>
+    <string name="ongoing_quiz">Ongoing Quiz</string>
 </resources>

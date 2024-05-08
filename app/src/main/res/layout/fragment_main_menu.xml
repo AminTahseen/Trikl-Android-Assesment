@@ -51,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="high score"
+            android:text="@string/high_score"
             android:textAllCaps="true"
             android:textColor="@color/whiteGrey"
             android:textSize="18sp"

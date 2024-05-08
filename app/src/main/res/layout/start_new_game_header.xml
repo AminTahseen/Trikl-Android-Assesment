@@ -17,7 +17,7 @@
             android:id="@+id/highScoreText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ongoing Quiz"
+            android:text="@string/ongoing_quiz"
             android:textStyle="bold"
             android:textSize="18sp"
             android:textColor="@color/whiteGrey"
