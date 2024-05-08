@@ -18,5 +18,9 @@
         android:id="@+id/startNewGameFragment"
         android:name="com.example.triklandroidassessment.view.fragments.StartNewGameFragment"
         android:label="fragment_start_new_game"
-        tools:layout="@layout/fragment_start_new_game" />
+        tools:layout="@layout/fragment_start_new_game" >
+        <action
+            android:id="@+id/action_startNewGameFragment_to_mainMenuFragment"
+            app:destination="@id/mainMenuFragment" />
+    </fragment>
 </navigation>

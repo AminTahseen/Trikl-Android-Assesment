@@ -11,10 +11,13 @@ import com.example.triklandroidassessment.R
 import com.example.triklandroidassessment.databinding.FragmentMainMenuBinding
 import com.example.triklandroidassessment.viewModel.MainMenuViewModel
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.triklandroidassessment.events.MainMenuEvents
+import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class MainMenuFragment : Fragment() {
     private val mainMenuViewModel: MainMenuViewModel by viewModels()
@@ -32,18 +35,18 @@ class MainMenuFragment : Fragment() {
     }
 
     private fun observeEvents() {
-        mainMenuViewModel.events.observe(viewLifecycleOwner) { events ->
-            when (events) {
-                is MainMenuEvents.StartNewGame -> {
-                    findNavController().navigate(R.id.action_mainMenuFragment_to_startNewGameFragment)
-
-                }
-
-                else -> {
-
+        lifecycleScope.launch {
+            mainMenuViewModel.events.collect { events ->
+                when (events) {
+                    is MainMenuEvents.StartNewGame -> {
+                        try {
+                            findNavController().navigate(R.id.action_mainMenuFragment_to_startNewGameFragment)
+                        }catch (_:Exception){
+                        }
+                    }
                 }
             }
         }
     }
-
 }
+

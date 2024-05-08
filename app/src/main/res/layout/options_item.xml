@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="model"
+            type="com.example.triklandroidassessment.model.dataModel.OptionItem" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:background="@{model.isRightAnswer ? @drawable/rounded_corner_option_right : (model.isWrongAnswer ? @drawable/rounded_corner_option_wrong : @drawable/rounded_corner_option)}"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/ongoingQuestion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:lineHeight="25dp"
+            android:text="@{model.option}"
+            android:textSize="18sp"
+            android:textColor="@{model.isRightAnswer ? @color/white : (model.isWrongAnswer ? @color/white : @color/bgColor)}"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

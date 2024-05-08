@@ -1,10 +1,9 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-    kotlin("kapt")
     id("com.google.dagger.hilt.android")
-    id ("kotlin-kapt")// add this line
-
+    id("kotlin-kapt")// add this line
+    id ("kotlin-android")
 }
 
 android {
@@ -38,16 +37,22 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures {
-        dataBinding= true
-        viewBinding=true
+        dataBinding = true
+        viewBinding = true
     }
 }
 
 dependencies {
+
     // dagger hilt
-    implementation("com.google.dagger:hilt-android:2.44")
-    implementation("androidx.databinding:databinding-runtime:8.2.1")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    implementation("com.google.dagger:hilt-android:2.46")
+    kapt("com.google.dagger:hilt-compiler:2.46")
+
+    // moshi
+    implementation ("com.squareup.moshi:moshi:1.15.0")
+    kapt ("com.squareup.moshi:moshi-kotlin-codegen:1.15.0")
+    implementation("com.squareup.moshi:moshi-kotlin:1.15.0")
+
 
 
     // Fragment lifecycle methods
@@ -55,11 +60,20 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
 
 
-
     // Navigation component
     val nav_version_ktx = "2.1.0-beta01"
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version_ktx")
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version_ktx")
+
+    // retrofit & GSON
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-moshi:2.9.0")
+
+    // coroutine
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
