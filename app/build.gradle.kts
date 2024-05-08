@@ -1,10 +1,9 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-    kotlin("kapt")
     id("com.google.dagger.hilt.android")
-    id ("kotlin-kapt")// add this line
-
+    id("kotlin-kapt")// add this line
+    id("kotlin-android")
 }
 
 android {
@@ -38,16 +37,23 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures {
-        dataBinding= true
-        viewBinding=true
+        dataBinding = true
+        viewBinding = true
     }
 }
 
 dependencies {
+
     // dagger hilt
-    implementation("com.google.dagger:hilt-android:2.44")
-    implementation("androidx.databinding:databinding-runtime:8.2.1")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    val daggerHilt = "2.46"
+    implementation("com.google.dagger:hilt-android:$daggerHilt")
+    kapt("com.google.dagger:hilt-compiler:$daggerHilt")
+
+    // moshi
+    val moshi = "1.15.0"
+    implementation("com.squareup.moshi:moshi:$moshi")
+    kapt("com.squareup.moshi:moshi-kotlin-codegen:$moshi")
+    implementation("com.squareup.moshi:moshi-kotlin:$moshi")
 
 
     // Fragment lifecycle methods
@@ -55,11 +61,32 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
 
 
-
     // Navigation component
     val nav_version_ktx = "2.1.0-beta01"
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version_ktx")
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version_ktx")
+
+    // retrofit & GSON
+    val retrofit = "2.9.0"
+    implementation("com.squareup.retrofit2:retrofit:$retrofit")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofit")
+    implementation("com.squareup.retrofit2:converter-moshi:$retrofit")
+
+    // coroutine
+    val coroutine = "1.5.2"
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine")
+
+    // room database
+    val roomVersion = "2.6.1"
+    implementation("androidx.room:room-runtime:$roomVersion")
+    annotationProcessor("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion")
+    androidTestImplementation("androidx.room:room-testing:$roomVersion")
+
+
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

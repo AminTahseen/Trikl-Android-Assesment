@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainMenuFragment"
-        android:name="com.example.triklandroidassessment.view.fragments.MainMenuFragment"
+        android:name="com.example.triklandroidassessment.view.fragments.mainMenu.MainMenuFragment"
         android:label="fragment_main_menu"
         tools:layout="@layout/fragment_main_menu" >
         <action
@@ -16,7 +16,23 @@
     </fragment>
     <fragment
         android:id="@+id/startNewGameFragment"
-        android:name="com.example.triklandroidassessment.view.fragments.StartNewGameFragment"
+        android:name="com.example.triklandroidassessment.view.fragments.startNewGame.StartNewGameFragment"
         android:label="fragment_start_new_game"
-        tools:layout="@layout/fragment_start_new_game" />
+        tools:layout="@layout/fragment_start_new_game" >
+        <action
+            android:id="@+id/action_startNewGameFragment_to_mainMenuFragment"
+            app:destination="@id/mainMenuFragment" />
+        <action
+            android:id="@+id/action_startNewGameFragment_to_highScoreFragment"
+            app:destination="@id/highScoreFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/highScoreFragment"
+        android:name="com.example.triklandroidassessment.view.fragments.highScore.HighScoreFragment"
+        android:label="fragment_high_score"
+        tools:layout="@layout/fragment_high_score" >
+        <action
+            android:id="@+id/action_highScoreFragment_to_mainMenuFragment"
+            app:destination="@id/mainMenuFragment" />
+    </fragment>
 </navigation>
