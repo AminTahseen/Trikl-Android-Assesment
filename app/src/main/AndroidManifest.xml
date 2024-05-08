@@ -16,6 +16,7 @@
         android:theme="@style/Theme.TriklAndroidAssessment"
         tools:targetApi="tiramisu">
         <activity
+            android:screenOrientation="sensorPortrait"
             android:name=".view.MainActivity"
             android:exported="true">
             <intent-filter>
