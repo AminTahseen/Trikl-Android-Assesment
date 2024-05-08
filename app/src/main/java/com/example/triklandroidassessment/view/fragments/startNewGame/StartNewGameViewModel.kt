@@ -1,16 +1,12 @@
-package com.example.triklandroidassessment.viewModel
+package com.example.triklandroidassessment.view.fragments.startNewGame
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.triklandroidassessment.events.MainMenuEvents
-import com.example.triklandroidassessment.events.StartNewGameEvents
 import com.example.triklandroidassessment.model.dataModel.QuestionsOptionsAnswer
-import com.example.triklandroidassessment.useCases.GetQuestionsAnswersUseCase
+import com.example.triklandroidassessment.model.useCases.GetQuestionsAnswersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,13 +18,14 @@ class StartNewGameViewModel @Inject constructor(
     private val _events = MutableLiveData<StartNewGameEvents>()
     val events = _events
 
-    val ongoingHighScore = MutableLiveData("0")
-    val btnText = MutableLiveData("Submit")
-    var onGoingQuestionIndex = 0
+    private var onGoingQuestionIndex = 0
     private val questionsAnswersList = mutableListOf<QuestionsOptionsAnswer.Question>()
 
     private var rightAnswer = ""
     private var selectedAnswer = ""
+    var setIsOptionsClickable = true
+
+    private var totalScore = 0
 
     init {
         viewModelScope.launch {
@@ -43,11 +40,21 @@ class StartNewGameViewModel @Inject constructor(
             Log.d("QuestionsAnswerssss", it.toString())
         }.collect {
             callEvent(StartNewGameEvents.ShowLoader(false))
-            it?.questions?.let { questionsAnswers ->
-                questionsAnswersList.addAll(questionsAnswers)
-                setQuestion(onGoingQuestionIndex)
+            if (it == null) {
+                callEvent(StartNewGameEvents.ShowToast("No Data Found..."))
+            } else {
+                it.questions?.let { questionsAnswers ->
+                    questionsAnswersList.addAll(questionsAnswers)
+                    setQuestion(onGoingQuestionIndex)
+                }
             }
+            getTotalScore()
+            callEvent(StartNewGameEvents.SetProgress(10))
         }
+    }
+
+    private fun getTotalScore() {
+        callEvent(StartNewGameEvents.SetTotalScore(totalScore))
     }
 
     private fun setQuestion(index: Int) {
@@ -72,33 +79,33 @@ class StartNewGameViewModel @Inject constructor(
     }
 
     fun verifyAnswer(answer: String) {
+        setIsOptionsClickable = false
         selectedAnswer = answer
         callEvent(StartNewGameEvents.CheckRightWrong(answer, rightAnswer))
         callEvent(StartNewGameEvents.StartStop10SecondsTimer(stopTimer = true))
         if (answer == rightAnswer) {
             Log.d("answer", "RIGHT")
+            totalScore += 10
+            callEvent(StartNewGameEvents.SetTotalScore(totalScore))
         } else {
             Log.d("answer", "WRONGGGGG")
         }
     }
 
     fun nextQuestion() {
-        if(selectedAnswer==""){
-            callEvent(StartNewGameEvents.ShowToast("Select an option first !"))
-        }else{
-            val index = onGoingQuestionIndex + 1
-            if (index == questionsAnswersList.size) {
-                callEvent(StartNewGameEvents.Finish)
-            } else {
-                onGoingQuestionIndex = index
-                setQuestion(index)
-            }
+        setIsOptionsClickable = true
+        val index = onGoingQuestionIndex + 1
+        callEvent(StartNewGameEvents.SetProgress(10))
+        if (index == questionsAnswersList.size) {
+            callEvent(StartNewGameEvents.Finish(totalScore))
+        } else {
+            onGoingQuestionIndex = index
+            setQuestion(index)
         }
-        selectedAnswer=""
+        selectedAnswer = ""
     }
 
     private fun callEvent(events: StartNewGameEvents) {
         _events.value = events
-
     }
 }

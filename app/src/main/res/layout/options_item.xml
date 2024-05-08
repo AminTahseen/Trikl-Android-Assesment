@@ -11,7 +11,7 @@
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="@{model.isRightAnswer ? @drawable/rounded_corner_option_right : (model.isWrongAnswer ? @drawable/rounded_corner_option_wrong : @drawable/rounded_corner_option)}"
+        android:background="@{model.isRightAnswer ? @drawable/rounded_corner_option_right : (model.isWrongAnswer ? @drawable/rounded_corner_option_wrong :(model.isNoAnswerSelected ?  @drawable/rounded_corner_option_no_ans :  @drawable/rounded_corner_option))}"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:paddingBottom="20dp"
@@ -23,13 +23,25 @@
             android:id="@+id/ongoingQuestion"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
             android:lineHeight="25dp"
+            android:layout_marginStart="30dp"
             android:text="@{model.option}"
-            android:textSize="18sp"
-            android:textColor="@{model.isRightAnswer ? @color/white : (model.isWrongAnswer ? @color/white : @color/bgColor)}"
             android:textAlignment="center"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@{model.isRightAnswer ? @color/white : (model.isWrongAnswer ? @color/white : @color/bgColor)}"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageView2"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@{model.isRightAnswer ? @drawable/correct_icon : (model.isWrongAnswer ? @drawable/cross_icon : null)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
 

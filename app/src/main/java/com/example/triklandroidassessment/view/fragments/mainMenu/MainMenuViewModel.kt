@@ -1,10 +1,8 @@
-package com.example.triklandroidassessment.viewModel
+package com.example.triklandroidassessment.view.fragments.mainMenu
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.triklandroidassessment.events.MainMenuEvents
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
@@ -27,6 +25,6 @@ class MainMenuViewModel:ViewModel() {
         }
     }
     private fun getCurrentHighScore(){
-        currentHighScore.value="Current High Score - 20"
+        currentHighScore.value="Current High Score - 20 POINTS"
     }
 }

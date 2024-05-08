@@ -1,4 +1,4 @@
-package com.example.triklandroidassessment.view.fragments
+package com.example.triklandroidassessment.view.fragments.startNewGame
 
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -15,17 +15,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.triklandroidassessment.R
 import com.example.triklandroidassessment.databinding.FragmentStartNewGameBinding
-import com.example.triklandroidassessment.events.MainMenuEvents
-import com.example.triklandroidassessment.events.StartNewGameEvents
 import com.example.triklandroidassessment.model.dataModel.OptionItem
 import com.example.triklandroidassessment.utils.gone
 import com.example.triklandroidassessment.utils.visible
-import com.example.triklandroidassessment.view.adapter.QuestionAnswerAdapter
-import com.example.triklandroidassessment.viewModel.StartNewGameViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.lang.Exception
-import kotlin.math.log
 
 @AndroidEntryPoint
 class StartNewGameFragment : Fragment() {
@@ -33,6 +27,8 @@ class StartNewGameFragment : Fragment() {
     private lateinit var startNewGameBinding: FragmentStartNewGameBinding
     private lateinit var adapter: QuestionAnswerAdapter
     private lateinit var timer: CountDownTimer
+    private lateinit var timerNextQuestion: CountDownTimer
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,6 +40,7 @@ class StartNewGameFragment : Fragment() {
         // Inflate the layout for this fragment
         setAdapter()
         set10SecondsTimer()
+        set2SecondsTimerAndNextQuestion()
         handleBackPress()
         observeEvents()
         return startNewGameBinding.root
@@ -70,7 +67,19 @@ class StartNewGameFragment : Fragment() {
 
             override fun onFinish() {
                 startNewGameBinding.timer.text = "0 sec"
+                startNewGameViewModel.verifyAnswer("")
                 // Add any actions you want to perform after the timer finishes here
+            }
+        }
+    }
+
+    private fun set2SecondsTimerAndNextQuestion() {
+        timerNextQuestion = object : CountDownTimer(2000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+            }
+
+            override fun onFinish() {
+                startNewGameViewModel.nextQuestion()
             }
         }
     }
@@ -98,13 +107,24 @@ class StartNewGameFragment : Fragment() {
                         adapter.addItems(list.shuffled())
                     }
 
-                    StartNewGameEvents.Finish -> {
+                    is StartNewGameEvents.Finish -> {
                         Log.d("gameFinish", "finishedddd")
+                        try {
+                            val bundle = Bundle()
+                            bundle.putInt("totalScore", events.totalScore)
+                            findNavController().navigate(
+                                R.id.action_startNewGameFragment_to_highScoreFragment,
+                                bundle
+                            )
+                        } catch (e: Exception) {
+                            Log.d("error", e.toString())
+                        }
                     }
 
                     is StartNewGameEvents.StartStop10SecondsTimer -> {
                         if (events.stopTimer) {
                             timer.cancel()
+                            timerNextQuestion.start()
                         } else {
                             set10SecondsTimer()
                             timer.start()
@@ -119,6 +139,14 @@ class StartNewGameFragment : Fragment() {
                         Toast.makeText(activity, events.message, Toast.LENGTH_SHORT).show()
                     }
 
+                    is StartNewGameEvents.SetTotalScore -> {
+                        startNewGameBinding.header.highScoreValue.text = events.score.toString()
+                    }
+
+                    is StartNewGameEvents.SetProgress -> {
+                        startNewGameBinding.progress.progress += events.progress
+                    }
+
                     else -> {
 
                     }
@@ -130,7 +158,9 @@ class StartNewGameFragment : Fragment() {
     private fun setAdapter() {
         adapter = QuestionAnswerAdapter {
             Log.d("selectedmasas", it)
-            startNewGameViewModel.verifyAnswer(it)
+            if (startNewGameViewModel.setIsOptionsClickable) {
+                startNewGameViewModel.verifyAnswer(it)
+            }
         }
         startNewGameBinding.optionsRecyclerView.adapter = adapter
     }

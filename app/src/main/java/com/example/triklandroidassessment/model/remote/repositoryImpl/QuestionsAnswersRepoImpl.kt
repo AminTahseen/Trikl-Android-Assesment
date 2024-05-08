@@ -9,6 +9,7 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import java.net.UnknownHostException
 import javax.inject.Inject
 import kotlin.math.log
 
@@ -17,15 +18,19 @@ class QuestionsAnswersRepoImpl @Inject constructor(
 ) : QuestionsAnswersRepo {
 
     override suspend fun getQuestionsAndOptions(): Flow<QuestionsOptionsAnswer?> {
-        val response = questionsApi.getQuestionsAndOptions()
-        return if (response.isSuccessful) {
-            val responseString = response.body()
-            val model=responseString as QuestionsOptionsAnswer
-            Log.d("dataJSON",model.toString())
-            flow { emit(model) }
-        } else {
+        return try {
+            val response = questionsApi.getQuestionsAndOptions()
+            if (response.isSuccessful) {
+                val responseString = response.body()
+                val model = responseString as QuestionsOptionsAnswer
+                Log.d("dataJSON", model.toString())
+                flow { emit(model) }
+            } else {
+                flow { emit(null) }
+            }
+        } catch (e: Exception) {
+            Log.e("NetworkError", "${e.message}")
             flow { emit(null) }
         }
-
     }
 }

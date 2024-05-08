@@ -1,4 +1,4 @@
-package com.example.triklandroidassessment.view.fragments
+package com.example.triklandroidassessment.view.fragments.mainMenu
 
 import android.os.Bundle
 import android.util.Log
@@ -6,16 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import com.example.triklandroidassessment.R
 import com.example.triklandroidassessment.databinding.FragmentMainMenuBinding
-import com.example.triklandroidassessment.viewModel.MainMenuViewModel
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import com.example.triklandroidassessment.events.MainMenuEvents
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
@@ -30,8 +27,19 @@ class MainMenuFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main_menu, container, false)
         binding.viewModel = mainMenuViewModel
         // Inflate the layout for this fragment
+        handleBackPress()
         observeEvents()
         return binding.root
+    }
+
+    private fun handleBackPress() {
+        val callback: OnBackPressedCallback =
+            object : OnBackPressedCallback(true /* enabled by default */) {
+                override fun handleOnBackPressed() {
+                    activity?.finish()
+                }
+            }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
     private fun observeEvents() {
@@ -41,7 +49,7 @@ class MainMenuFragment : Fragment() {
                     is MainMenuEvents.StartNewGame -> {
                         try {
                             findNavController().navigate(R.id.action_mainMenuFragment_to_startNewGameFragment)
-                        }catch (_:Exception){
+                        } catch (_: Exception) {
                         }
                     }
                 }

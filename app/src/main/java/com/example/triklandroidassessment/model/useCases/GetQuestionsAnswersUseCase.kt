@@ -1,4 +1,4 @@
-package com.example.triklandroidassessment.useCases
+package com.example.triklandroidassessment.model.useCases
 
 import com.example.triklandroidassessment.model.dataModel.QuestionsOptionsAnswer
 import com.example.triklandroidassessment.model.remote.repository.QuestionsAnswersRepo

@@ -1,11 +1,8 @@
-package com.example.triklandroidassessment.view.adapter
+package com.example.triklandroidassessment.view.fragments.startNewGame
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.triklandroidassessment.R
 import com.example.triklandroidassessment.databinding.OptionsItemBinding
 import com.example.triklandroidassessment.model.dataModel.OptionItem
 
@@ -15,8 +12,6 @@ class QuestionAnswerAdapter(
     private val optionsList = ArrayList<OptionItem>()
     private lateinit var binding: OptionsItemBinding
 
-    // private lateinit var mainHolder: QuestionAnswerViewHolder
-
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
     ): QuestionAnswerViewHolder {
@@ -25,27 +20,27 @@ class QuestionAnswerAdapter(
     }
 
     fun addItems(list: List<OptionItem>) {
-        optionsList.clear()
-        optionsList.addAll(list)
+        optionsList.apply {
+            this.clear()
+            this.addAll(list)
+        }
         notifyDataSetChanged()
     }
 
     fun checkAnswerIfRightWrong(selectedAnswer: String, validAnswer: String) {
-        if (selectedAnswer != validAnswer) {
-            val selectedItem = optionsList.find {
-                it.option == selectedAnswer
+        val selectedItem = optionsList.find { it.option == selectedAnswer }
+        val validItem = optionsList.find { it.option == validAnswer }
+        when {
+            selectedAnswer != validAnswer && selectedAnswer.isNotEmpty() -> {
+                selectedItem?.isWrongAnswer = true
+                validItem?.isRightAnswer = true
             }
-            selectedItem?.isWrongAnswer = true
-            val validItem = optionsList.find {
-                it.option == validAnswer
+            selectedAnswer.isEmpty() && validAnswer.isNotEmpty() -> {
+                validItem?.isNoAnswerSelected = true
             }
-            validItem?.isRightAnswer = true
-
-        } else {
-            val validItem = optionsList.find {
-                it.option == validAnswer
+            else -> {
+                validItem?.isRightAnswer = true
             }
-            validItem?.isRightAnswer = true
         }
         notifyDataSetChanged()
     }
@@ -53,7 +48,7 @@ class QuestionAnswerAdapter(
     override fun onBindViewHolder(
         holder: QuestionAnswerViewHolder, position: Int
     ) {
-        val item =optionsList[position]
+        val item = optionsList[position]
         holder.bind(item)
         holder.itemView.setOnClickListener {
             onItemSelect(optionsList[position].option)
