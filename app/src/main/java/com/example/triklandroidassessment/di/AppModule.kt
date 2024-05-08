@@ -2,10 +2,10 @@ package com.example.triklandroidassessment.di
 
 import android.app.Application
 import androidx.room.Room
+import com.example.triklandroidassessment.BuildConfig
 import com.example.triklandroidassessment.model.local.database.TriklTriviaDatabase
 import com.example.triklandroidassessment.model.local.repository.TriklTriviaDBInterface
 import com.example.triklandroidassessment.model.local.repositoryImpl.TriklTriviaDBInterfaceImpl
-import com.example.triklandroidassessment.model.remote.Constants
 import com.example.triklandroidassessment.model.remote.apiInterface.QuestionsApi
 import com.example.triklandroidassessment.model.remote.repository.QuestionsAnswersRepo
 import com.example.triklandroidassessment.model.remote.repositoryImpl.QuestionsAnswersRepoImpl
@@ -18,7 +18,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -35,7 +34,7 @@ class AppModule {
     ): QuestionsApi =
         Retrofit.Builder()
             .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .baseUrl(Constants.MAIN_BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL)
             .client(okHttpClient)
             .build()
             .create(QuestionsApi::class.java)
