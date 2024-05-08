@@ -41,16 +41,22 @@ class StartNewGameViewModel @Inject constructor(
         }
     }
 
+     fun retryData(){
+        viewModelScope.launch {
+            getQuestionAnswers()
+        }
+    }
     private suspend fun getQuestionAnswers() {
         callEvent(StartNewGameEvents.ShowLoader(true))
         getQuestionsAnswersUseCase().catch {
             callEvent(StartNewGameEvents.ShowLoader(false))
-            Log.d("QuestionsAnswerssss", it.toString())
         }.collect {
             callEvent(StartNewGameEvents.ShowLoader(false))
             if (it == null) {
                 callEvent(StartNewGameEvents.ShowToast("No Data Found..."))
+                callEvent(StartNewGameEvents.SetContentVisibility(false))
             } else {
+                callEvent(StartNewGameEvents.SetContentVisibility(true))
                 it.questions?.let { questionsAnswers ->
                     questionsAnswersList.addAll(questionsAnswers)
                     setQuestion(onGoingQuestionIndex)

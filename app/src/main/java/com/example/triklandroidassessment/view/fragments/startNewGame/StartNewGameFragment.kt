@@ -147,6 +147,19 @@ class StartNewGameFragment : Fragment() {
                         startNewGameBinding.progress.progress += events.progress
                     }
 
+                    is StartNewGameEvents.SetContentVisibility -> {
+                        startNewGameBinding.apply {
+                            if (events.hasData) {
+                                mainContent.visible()
+                                noDataContent.gone()
+                            } else {
+                                mainContent.gone()
+                                noDataContent.visible()
+                            }
+                        }
+
+                    }
+
                     else -> {
 
                     }
@@ -166,18 +179,20 @@ class StartNewGameFragment : Fragment() {
     }
 
     private fun showHideProgress(show: Boolean) {
-        if (show) {
-            startNewGameBinding.progress1.visible()
-            startNewGameBinding.progress2.visible()
-            startNewGameBinding.ongoingQuestion.gone()
-            startNewGameBinding.marks.gone()
-            startNewGameBinding.optionsRecyclerView.gone()
-        } else {
-            startNewGameBinding.progress1.gone()
-            startNewGameBinding.progress2.gone()
-            startNewGameBinding.ongoingQuestion.visible()
-            startNewGameBinding.marks.visible()
-            startNewGameBinding.optionsRecyclerView.visible()
+        startNewGameBinding.apply {
+            if (show) {
+                progress1.visible()
+                progress2.visible()
+                ongoingQuestion.gone()
+                badge.gone()
+                optionsRecyclerView.gone()
+            } else {
+                progress1.gone()
+                progress2.gone()
+                ongoingQuestion.visible()
+                badge.visible()
+                optionsRecyclerView.visible()
+            }
         }
     }
 }

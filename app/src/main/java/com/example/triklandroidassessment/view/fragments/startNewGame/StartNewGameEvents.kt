@@ -5,7 +5,7 @@ sealed class StartNewGameEvents {
     data class SetQuestion(val number: Int, val total: Int, val question: String) :
         StartNewGameEvents()
 
-    data class Finish(val totalScore:Int) : StartNewGameEvents()
+    data class Finish(val totalScore: Int) : StartNewGameEvents()
     data class SetOptions(val list: List<String>) : StartNewGameEvents()
     data class CheckRightWrong(val selected: String, val valid: String) : StartNewGameEvents()
     data class StartStop10SecondsTimer(val stopTimer: Boolean) : StartNewGameEvents()
@@ -13,4 +13,5 @@ sealed class StartNewGameEvents {
     data class SetTotalScore(val score: Int) : StartNewGameEvents()
 
     data class SetProgress(val progress: Int) : StartNewGameEvents()
+    data class SetContentVisibility(val hasData: Boolean) : StartNewGameEvents()
 }

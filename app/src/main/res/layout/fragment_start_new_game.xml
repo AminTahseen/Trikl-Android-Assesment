@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     tools:context=".view.fragments.startNewGame.StartNewGameFragment">
 
     <data>
@@ -25,158 +26,227 @@
             />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/quiz_header"
+            android:id="@+id/mainContent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="20dp"
+            android:layout_height="0dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/header">
+            app:layout_constraintTop_toBottomOf="@id/header"
+           >
 
-            <TextView
-                android:id="@+id/ongoingQuestionNum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:text="Question"
-                android:layout_marginBottom="30dp"
-                android:textColor="@color/whiteGrey"
-                app:layout_constraintBottom_toBottomOf="@id/progress"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/timerText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
-                android:text="Timer : "
-                android:textColor="@color/whiteGrey"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="@id/progress"
-                app:layout_constraintEnd_toStartOf="@+id/timer"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/timer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
-                android:text="10s"
-                android:textColor="@color/whiteGrey"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="@id/progress"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-
-            <com.google.android.material.progressindicator.LinearProgressIndicator
-                android:id="@+id/progress"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/quiz_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/ongoingQuestionNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="30dp"
+                    android:text="Question"
+                    android:textColor="@color/whiteGrey"
+                    android:textSize="18sp"
+                    android:layout_marginStart="10dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/progress"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/timerText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="30dp"
+                    android:text="Timer : "
+                    android:textColor="@color/whiteGrey"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@id/progress"
+                    app:layout_constraintEnd_toStartOf="@+id/timer"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/timer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="30dp"
+                    android:text="10s"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/whiteGrey"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@id/progress"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:progress="10"
+                    app:indicatorColor="@color/orange"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                   android:id="@+id/section"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/quiz_header"
+
+                    android:padding="10dp">
+
+
+                    <TextView
+                        android:id="@+id/ongoingQuestion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lineHeight="30dp"
+                        android:text=""
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="10dp"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="25sp"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ProgressBar
+                        android:id="@+id/progress1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:indeterminateTint="@color/orange"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:layout_editor_absoluteY="10dp" />
+
+                    <LinearLayout
+                        android:id="@+id/badge"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:background="@drawable/rounded_corner_badge"
+                        app:layout_constraintEnd_toEndOf="@+id/ongoingQuestion"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/ongoingQuestion">
+
+                        <TextView
+                            android:id="@+id/marks"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:lineHeight="25dp"
+                            android:text="10 POINTS"
+                            android:textStyle="bold"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <ProgressBar
+                android:id="@+id/progress2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminateTint="@color/orange"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/optionsRecyclerView" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/optionsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:indicatorColor="@color/orange"
-                android:progress="10"
-                android:layout_marginBottom="10dp"/>
-
-
+                app:layout_constraintTop_toBottomOf="@+id/section"
+                tools:itemCount="4"
+                tools:listitem="@layout/options_item" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-<androidx.cardview.widget.CardView
-    android:id="@+id/ongoingQuestionCard"
-    android:layout_width="match_parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/quiz_header"
-    android:layout_marginEnd="20dp"
-    android:layout_marginStart="20dp"
-    app:cardCornerRadius="20dp"
-    app:cardUseCompatPadding="true"
-    android:layout_height="wrap_content">
-
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/noDataContent"
         android:layout_width="match_parent"
-        android:background="#30336b"
-        android:padding="10dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        >
 
-
-        <TextView
-            android:id="@+id/ongoingQuestion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:lineHeight="25dp"
-            android:text=""
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="italic|bold"
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/quiz_logo"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ProgressBar
-            android:id="@+id/progress1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:indeterminateTint="@color/orange"
-            tools:layout_editor_absoluteY="10dp" />
 
         <TextView
-            android:id="@+id/marks"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:lineHeight="25dp"
-            android:text="Marks (10)"
-            android:textAlignment="center"
-            android:textColor="@color/whiteGrey"
-            android:textSize="15sp"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@id/ongoingQuestion" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-</androidx.cardview.widget.CardView>
-
-        <ProgressBar
-            android:id="@+id/progress2"
+            android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="10dp"
+            android:text="No Data Found"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:indeterminateTint="@color/orange"
-            app:layout_constraintTop_toBottomOf="@+id/ongoingQuestionCard"
-            tools:layout_editor_absoluteY="10dp" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/optionsRecyclerView"
+        <Button
+            android:id="@+id/button"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="50dp"
+            android:background="@drawable/rounded_corner_submit_btn"
+            android:onClick="@{() ->viewModel.retryData()}"
+            android:text="Retry"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:backgroundTint="@null"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="20dp"
-            tools:itemCount="4"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/options_item"
-            android:layout_marginBottom="20dp"
-            app:layout_constraintTop_toBottomOf="@+id/ongoingQuestionCard" />
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
 
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 
